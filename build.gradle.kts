@@ -39,3 +39,12 @@ subprojects {
 tasks.register("clean", Delete::class) {
     delete(layout.buildDirectory)
 }
+
+tasks.register("updateGitHooks", Copy::class) {
+    from("./scripts/pre-commit")
+    into("./.git/hooks")
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class) {
+    dependsOn("updateGitHooks")
+}
