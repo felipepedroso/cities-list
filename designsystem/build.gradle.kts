@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.roborazzi)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {

@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.roborazzi) apply false
     alias(libs.plugins.dependencyAnalysis)
     alias(libs.plugins.gradleDoctor)
+    alias(libs.plugins.kotlin.compose) apply false
 }
 
 subprojects {
