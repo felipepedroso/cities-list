@@ -8,4 +8,9 @@
         <item quantity="one">%d city found:</item>
         <item quantity="other">%d cities found:</item>
     </plurals>
+
+    <plurals name="query_empty">
+        <item quantity="one">%d city available:</item>
+        <item quantity="other">%d cities available:</item>
+    </plurals>
 </resources>

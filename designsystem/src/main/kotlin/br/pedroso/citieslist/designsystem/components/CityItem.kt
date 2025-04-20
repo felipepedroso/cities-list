@@ -1,5 +1,6 @@
 package br.pedroso.citieslist.designsystem.components
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,26 +33,17 @@ fun CityItem(
     Surface(modifier = modifier, onClick = onClick) {
         Row(
             modifier = Modifier.padding(16.dp),
-            horizontalArrangement = spacedBy(8.dp),
+            horizontalArrangement = spacedBy(16.dp),
         ) {
             Text(
                 text = getCountryFlagEmoji(city.countryCode),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleLarge,
             )
 
             Column(modifier = Modifier.weight(1f), verticalArrangement = spacedBy(4.dp)) {
                 Text(text = city.name, style = MaterialTheme.typography.titleMedium)
                 Text(
                     text = stringResource(id = R.string.country_code_label, city.countryCode),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-                Text(
-                    text =
-                        stringResource(
-                            id = R.string.coordinates_label,
-                            city.coordinates.latitude,
-                            city.coordinates.longitude,
-                        ),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -68,6 +60,7 @@ fun CityItem(
 }
 
 @Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun CityItemPreview() {
     CitiesListTheme {

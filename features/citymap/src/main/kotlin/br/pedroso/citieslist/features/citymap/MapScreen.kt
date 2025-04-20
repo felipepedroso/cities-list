@@ -1,5 +1,6 @@
 package br.pedroso.citieslist.features.citymap
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -146,6 +147,7 @@ fun DisplayCityOnMap(
 }
 
 @Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun MapScreenPreview(
     @PreviewParameter(MapScreenCityPreviewParameterProvider::class) uiState: MapScreenUiState,
