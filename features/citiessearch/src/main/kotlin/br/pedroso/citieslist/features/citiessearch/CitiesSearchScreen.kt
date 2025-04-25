@@ -1,16 +1,17 @@
 package br.pedroso.citieslist.features.citiessearch
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,12 +38,17 @@ import br.pedroso.citieslist.designsystem.components.BaseScreen
 import br.pedroso.citieslist.designsystem.components.EmptyState
 import br.pedroso.citieslist.designsystem.components.ErrorState
 import br.pedroso.citieslist.designsystem.components.PaginatedCitiesList
+import br.pedroso.citieslist.designsystem.components.QueryHistoryItem
 import br.pedroso.citieslist.designsystem.theme.CitiesListTheme
 import br.pedroso.citieslist.designsystem.utils.createPreviewCities
 import br.pedroso.citieslist.domain.City
+import br.pedroso.citieslist.domain.SearchQuery
 import br.pedroso.citieslist.features.citiessearch.CitiesSearchUiEvent.ClickedOnCity
 import br.pedroso.citieslist.features.citiessearch.CitiesSearchUiEvent.ClickedOnClearQuery
+import br.pedroso.citieslist.features.citiessearch.CitiesSearchUiEvent.ClickedOnQueryHistoryItem
+import br.pedroso.citieslist.features.citiessearch.CitiesSearchUiEvent.ClickedOnRemoveQueryHistoryItem
 import br.pedroso.citieslist.features.citiessearch.CitiesSearchUiEvent.ClickedOnRetry
+import br.pedroso.citieslist.features.citiessearch.CitiesSearchUiEvent.SeachQuerySubmitted
 import br.pedroso.citieslist.features.citiessearch.CitiesSearchUiEvent.SearchQueryChanged
 import br.pedroso.citieslist.features.citiessearch.CitiesSearchViewModelEvent.NavigateToMapScreen
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,7 +63,9 @@ fun CitiesSearchScreen(
 ) {
     val lazyPagingItems = viewModel.paginatedCities.collectAsLazyPagingItems()
 
-    val query by viewModel.queryState.collectAsState()
+    val queriesHistory by viewModel.queriesHistoryState.collectAsState()
+
+    val query by viewModel.uiQueryState.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.viewModelEventFlow.collectLatest { event ->
@@ -70,6 +78,7 @@ fun CitiesSearchScreen(
     CitiesSearchScreenUi(
         modifier = modifier,
         query = query,
+        queriesHistory = queriesHistory,
         lazyPagingItems = lazyPagingItems,
         onViewEvent = viewModel::onViewEvent,
     )
@@ -79,6 +88,7 @@ fun CitiesSearchScreen(
 @Composable
 fun CitiesSearchScreenUi(
     query: String,
+    queriesHistory: List<SearchQuery>,
     lazyPagingItems: LazyPagingItems<City>,
     modifier: Modifier = Modifier,
     onViewEvent: (viewEvent: CitiesSearchUiEvent) -> Unit = {},
@@ -86,26 +96,21 @@ fun CitiesSearchScreenUi(
     val isLoading = lazyPagingItems.loadState.refresh is LoadState.Loading
     var expanded by rememberSaveable { mutableStateOf(false) }
 
-    val searchBarHorizontalPadding by animateDpAsState(
-        if (expanded) {
-            0.dp
-        } else {
-            16.dp
-        },
-    )
-
     BaseScreen(modifier) {
         Column(modifier = modifier.fillMaxSize()) {
-            SearchBar(
+            DockedSearchBar(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(searchBarHorizontalPadding),
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                 inputField = {
                     SearchBarDefaults.InputField(
                         query = query,
                         onQueryChange = { newQuery -> onViewEvent(SearchQueryChanged(newQuery)) },
-                        onSearch = { expanded = false },
+                        onSearch = {
+                            onViewEvent(SeachQuerySubmitted)
+                            expanded = false
+                        },
                         expanded = expanded,
                         onExpandedChange = { expanded = it },
                         placeholder = { Text(text = stringResource(id = R.string.search_placeholder)) },
@@ -114,7 +119,7 @@ fun CitiesSearchScreenUi(
                                 IconButton(onClick = { onViewEvent(ClickedOnClearQuery) }) {
                                     Icon(
                                         painter = painterResource(id = DesignSystemR.drawable.ic_close),
-                                        contentDescription = null,
+                                        contentDescription = stringResource(R.string.clear_search_query),
                                     )
                                 }
                             }
@@ -127,9 +132,24 @@ fun CitiesSearchScreenUi(
                         },
                     )
                 },
-                expanded = expanded,
+                expanded = expanded && queriesHistory.isNotEmpty(),
                 onExpandedChange = { expanded = it },
             ) {
+                LazyColumn {
+                    items(queriesHistory) { queryItem ->
+                        QueryHistoryItem(
+                            query = queryItem.query,
+                            date = queryItem.timestamp,
+                            onRemoveClicked = {
+                                onViewEvent(ClickedOnRemoveQueryHistoryItem(queryItem))
+                            },
+                            onClick = {
+                                onViewEvent(ClickedOnQueryHistoryItem(queryItem))
+                                expanded = false
+                            },
+                        )
+                    }
+                }
             }
 
             PaginatedCitiesList(
@@ -189,6 +209,7 @@ private fun CitiesSearchScreenPreview(
             query = PREVIEW_QUERY,
             lazyPagingItems = lazyPagingItems,
             modifier = Modifier.fillMaxSize(),
+            queriesHistory = emptyList(),
         )
     }
 }

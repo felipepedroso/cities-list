@@ -6,6 +6,7 @@ appcompat = "1.7.0"
 core-ktx = "1.16.0"
 compose-bom = "2025.04.00"
 compose-kotlinCompilerExtension = "1.5.9"
+desugar_jdk_libs = "2.1.5"
 espresso-core = "3.6.1"
 fixture = "1.2.0"
 hilt-android = "2.56.2"
@@ -60,6 +61,7 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "testCoreKtx" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
+desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 fixture = { module = "com.appmattus.fixture:fixture", version.ref = "fixture" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-android" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }

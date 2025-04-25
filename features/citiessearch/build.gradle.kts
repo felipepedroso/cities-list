@@ -41,6 +41,7 @@ dependencies {
     api(project(":domain"))
     implementation(project(":designsystem"))
     api(project(":repository"))
+    api(project(":querieshistory"))
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 

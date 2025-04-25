@@ -35,4 +35,9 @@ object DatabaseModule {
     fun provideCitiesDao(appDatabase: AppDatabase): CitiesDao {
         return appDatabase.citiesDao()
     }
+
+    @Provides
+    fun provideQueriesDao(appDatabase: AppDatabase): QueriesDao {
+        return appDatabase.queriesDao()
+    }
 }

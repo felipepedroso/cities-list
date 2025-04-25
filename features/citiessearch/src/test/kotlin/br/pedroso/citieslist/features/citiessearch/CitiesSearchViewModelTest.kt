@@ -207,7 +207,7 @@ class CitiesSearchViewModelTest {
 
             viewModel.onViewEvent(ClickedOnRetry)
 
-            assertThat(viewModel.queryState.first()).isEmpty()
+            assertThat(viewModel.uiQueryState.first()).isEmpty()
         }
 
     @Test
@@ -224,7 +224,7 @@ class CitiesSearchViewModelTest {
 
             viewModel.onViewEvent(ClickedOnRetry)
 
-            assertThat(viewModel.queryState.first()).isEqualTo(query)
+            assertThat(viewModel.uiQueryState.first()).isEqualTo(query)
         }
 
     @Test
@@ -239,7 +239,7 @@ class CitiesSearchViewModelTest {
 
             viewModel.onViewEvent(SearchQueryChanged(newQuery))
 
-            assertThat(viewModel.queryState.first()).isEqualTo(newQuery)
+            assertThat(viewModel.uiQueryState.first()).isEqualTo(newQuery)
         }
 
     @Test
@@ -256,6 +256,6 @@ class CitiesSearchViewModelTest {
 
             viewModel.onViewEvent(ClickedOnClearQuery)
 
-            assertThat(viewModel.queryState.first()).isEmpty()
+            assertThat(viewModel.uiQueryState.first()).isEmpty()
         }
 }
