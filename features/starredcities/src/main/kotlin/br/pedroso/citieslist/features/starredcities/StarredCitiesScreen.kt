@@ -8,19 +8,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import br.pedroso.citieslist.designsystem.components.EmptyState
+import br.pedroso.citieslist.designsystem.components.PaginatedCitiesList
+import br.pedroso.citieslist.designsystem.theme.CitiesListTheme
+import br.pedroso.citieslist.designsystem.utils.createPreviewCities
+import br.pedroso.citieslist.domain.City
 import br.pedroso.citieslist.features.starredcities.StarredCitiesUiEvent.ClickedOnCity
 import br.pedroso.citieslist.features.starredcities.StarredCitiesViewModelEvent.NavigateToMapScreen
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun StarredCitiesScreen(
     viewModel: StarredCitiesViewModel,
     modifier: Modifier = Modifier,
-    openCityOnMap: (city: br.pedroso.citieslist.domain.City) -> Unit = {},
+    openCityOnMap: (city: City) -> Unit = {},
 ) {
     val lazyPagingItems = viewModel.paginatedCities.collectAsLazyPagingItems()
 
@@ -37,11 +49,11 @@ fun StarredCitiesScreen(
 
 @Composable
 private fun StarredCitiesScreenUi(
-    lazyPagingItems: LazyPagingItems<br.pedroso.citieslist.domain.City>,
+    lazyPagingItems: LazyPagingItems<City>,
     modifier: Modifier = Modifier,
     onUiEvent: (uiEvent: StarredCitiesUiEvent) -> Unit = {},
 ) {
-    br.pedroso.citieslist.designsystem.components.PaginatedCitiesList(
+    PaginatedCitiesList(
         modifier = modifier,
         lazyPagingItems = lazyPagingItems,
         showStarredIndicator = false,
@@ -63,17 +75,57 @@ private fun StarredCitiesScreenUi(
                 )
             }
         },
-        errorStateContent = {
-        },
+        errorStateContent = { },
         emptyStateContent = {
+            EmptyState(
+                message = stringResource(id = R.string.no_starred_cities),
+            )
         },
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun StarredCitiesScreenPreview() {
-    br.pedroso.citieslist.designsystem.theme.CitiesListTheme {
-//        StarredCitiesScreenUi()
+fun StarredCitiesScreenPreview(
+    @PreviewParameter(StarredCitiesScreenPagingDataProvider::class) pagingData: PagingData<City>,
+) {
+    CitiesListTheme {
+        val pagingDataFlow = MutableStateFlow(pagingData)
+
+        val lazyPagingItems = pagingDataFlow.collectAsLazyPagingItems()
+
+        StarredCitiesScreenUi(lazyPagingItems)
     }
+}
+
+private class StarredCitiesScreenPagingDataProvider :
+    PreviewParameterProvider<PagingData<City>> {
+    override val values: Sequence<PagingData<City>> =
+        sequenceOf(
+            PagingData.from(createPreviewCities()),
+            // Loading state
+            PagingData.empty(
+                LoadStates(
+                    LoadState.Loading,
+                    LoadState.NotLoading(true),
+                    LoadState.NotLoading(true),
+                ),
+            ),
+            // Empty state
+            PagingData.empty(
+                LoadStates(
+                    LoadState.NotLoading(true),
+                    LoadState.NotLoading(true),
+                    LoadState.NotLoading(true),
+                ),
+            ),
+            // Error state
+            PagingData.empty(
+                LoadStates(
+                    LoadState.Error(Throwable()),
+                    LoadState.NotLoading(true),
+                    LoadState.NotLoading(true),
+                ),
+            ),
+        )
 }

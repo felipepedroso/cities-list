@@ -4,4 +4,5 @@
         <item quantity="one">%d starred city:</item>
         <item quantity="other">%d starred cities:</item>
     </plurals>
+    <string name="no_starred_cities">No starred cities</string>
 </resources>

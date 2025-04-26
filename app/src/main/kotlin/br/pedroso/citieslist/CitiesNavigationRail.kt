@@ -69,7 +69,7 @@ fun CitiesNavigationRail(
 @Preview(showBackground = true)
 @Composable
 fun CitiesNavigationRailPreview() {
-    br.pedroso.citieslist.designsystem.theme.CitiesListTheme {
+    CitiesListTheme {
         CitiesNavigationRail()
     }
 }

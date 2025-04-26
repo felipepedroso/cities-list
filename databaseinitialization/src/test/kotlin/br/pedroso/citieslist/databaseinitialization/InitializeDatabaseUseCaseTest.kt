@@ -24,7 +24,7 @@ class InitializeDatabaseUseCaseTest {
     ) = InitializeDatabaseUseCaseImpl(citiesDao, citiesJsonDataSource)
 
     @Test
-    fun `given data source is empty when use case is executed then database must be empty`() =
+    fun `Given data source is empty, When use case is executed, Then database must be empty`() =
         runTest {
             val citiesDao = SuccessfulCitiesDao()
             val citiesJsonDataSource = FakeCitiesJsonDataSource(emptyList())
