@@ -1,12 +1,9 @@
 [versions]
-androidGradlePlugin = "8.9.1"
+androidGradlePlugin = "8.9.2"
 androidx-junit = "1.2.1"
 activity = "1.10.1"
-appcompat = "1.7.0"
-core-ktx = "1.16.0"
-compose-bom = "2025.04.00"
+compose-bom = "2025.04.01"
 compose-kotlinCompilerExtension = "1.5.9"
-desugar_jdk_libs = "2.1.5"
 espresso-core = "3.6.1"
 fixture = "1.2.0"
 hilt-android = "2.56.2"
@@ -19,21 +16,18 @@ ksp = "2.1.20-2.0.0"
 lifecycle = "2.8.7"
 maps-compose = "4.3.3"
 maps-secrets = "2.0.1"
-material = "1.12.0"
 navigation-compose = "2.8.9"
 paging = "3.3.6"
 play-services-maps = "19.2.0"
 robolectric = "4.11.1"
 roborazzi = "1.10.1"
-room = "2.7.0"
+room = "2.7.1"
 spotless = "6.25.0"
 truth = "1.4.4"
-work-runtime-ktx = "2.10.0"
+work-runtime-ktx = "2.10.1"
 org-jetbrains-kotlin-jvm = "1.9.22"
 testCoreKtx = "1.6.1"
 [libraries]
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 androidx-activity = { module = "androidx.activity:activity", version.ref = "activity" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
@@ -61,19 +55,16 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "testCoreKtx" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "work-runtime-ktx" }
-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 fixture = { module = "com.appmattus.fixture:fixture", version.ref = "fixture" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-android" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt-extensions" }
 hilt-extensionsCompiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-extensions" }
 junit = { module = "junit:junit", version.ref = "junit" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
-material = { module = "com.google.android.material:material", version.ref = "material" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "play-services-maps" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
